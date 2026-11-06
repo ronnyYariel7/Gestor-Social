@@ -190,6 +190,7 @@ const fechaActual=document.getElementById("fechaActual");// Fecha Actula
 const tiempoActual=document.getElementById("tiempoActual"); // constante donde mostraremos el Tiempo
 const sociosTabla=document.getElementById("sociosTabla"); // constante para obtener la tabla donde estaran los socios
 const inpBuscar = document.getElementById("inpBuscar"); // Input del Buscador de Socios 
+const selecActividad = document.getElementById("selecActividad"); // Select de las Opciones actividades
 
 //Agregamos la fecha Actual a la Cabecera
 fechaActual.innerHTML=formatoFecha();
@@ -209,38 +210,19 @@ inpBuscar.addEventListener("input",() =>{
 
   let caracteres=inpBuscar.value.trim(); // recogemos caracter por caracter 
   if(caracteres.length>=2){
-    caracteres=cambiarTildesVocales(caracteres).toLowerCase();
-
-    // creamos la expreción regular
-    var myReg = new RegExp(`^${caracteres}`,"i") 
-    let sociosEncontrados={}; 
-   
-  sociosEncontrados= socios.filter(elem => {
-    let nombreSocio=cambiarTildesVocales(elem.nombre.toLowerCase());
-    let apellidoSocio=cambiarTildesVocales(elem.apellidos.toLowerCase());
-
-      if(myReg.test(nombreSocio)|| myReg.test(apellidoSocio))
-        return elem;
-    })
-
-    //Si no se encontraron socios lanzamos un mensaje
-    if(sociosEncontrados.length==0)sociosTabla.innerHTML="No se han Encontrado Socios";
-    else {
-      sociosTabla.innerHTML="";
-
-   
-    for(let elem of sociosEncontrados){
-       let id=idSocio(elem.nombre,elem.apellidos,elem.id);
-       let actividades=actividadesSocioString(elem.actividades);
-
-        sociosTabla.innerHTML+=agregarSocioTabla(id,elem.nombre,
-                                            elem.email,actividades,calcularEdad(elem.fechaNacimiento),elem.cuota);
-    }
+    filtrarSocios(caracteres);
   }
+  else cargarSocios();
 
-  }
-  else cargarSocios(); 
+  
  
+
+})
+
+//Buscar Socios por ACTIVIDADES
+selecActividad.addEventListener("input",()=>{
+ 
+  filtrarSocios();
 
 })
 
@@ -263,34 +245,50 @@ array.lenght;
  * @param {*} cuota 
  * @returns 
  */
-function agregarSocioTabla(id,nombre,email,actividades,edad,cuota){
+function agregarSocioTabla(id, nombre,apellidos, email, actividades, edad, cuota) {
+   
+   let idFormato=idSocio(nombre,apellidos,id);
+    email = ocultarCorreo(email);
 
+    let fila = createNode('tr', '', '', ''); // creamos el Nodo en formato tabala   
+    let divRadio = createNode('div', String(idFormato), '', 'radio'); //creamos el id con sus estilos 
 
-  let fila="";
-  email=ocultarCorreo(email);
+    let thId = createNode('th', '', '', ''); // creamos las columnas 
+    thId.appendChild(divRadio);
 
-  fila=`<tr>
-          <th><div class="radio">${id}</div></th>
-          <th>${nombre}</th>
-          <th>${email}</th>
-          <th>${actividades}</th>
-          <th>${edad}</th>
-          <th>${cuota}</th>
-        </tr>`;
+    let thNombre = createNode('th', String(nombre), '', '');
+    let thEmail = createNode('th', String(email), '', '');
+    
+    let thActividades = createNode('th', actividadesSocioString(actividades), '', '');
 
-      return fila;
-            
+    let thEdad = createNode('th', String(edad), '', '');
+    let thCuota = createNode('th', String(cuota), '', '');
+
+    // Agregamos a Fila
+    fila.appendChild(thId);
+    fila.appendChild(thNombre);
+    fila.appendChild(thEmail);
+    fila.appendChild(thActividades);
+    fila.appendChild(thEdad);
+    fila.appendChild(thCuota);
+
+    return fila;
 }
 
 /**
  * Función que usamos para cargar los socios 
  */
 function cargarSocios() {
+
+  // Para evitar duplicaciones de Socios en sociosTabla 
+  while(sociosTabla.firstChild){
+    sociosTabla.removeChild(sociosTabla.firstChild)
+  }
+
   socios.forEach((elem)=>{
-  let id=idSocio(elem.nombre,elem.apellidos,elem.id)
-  let actividades=actividadesSocioString(elem.actividades);
-  sociosTabla.innerHTML+=agregarSocioTabla(id,elem.nombre,
-                                            elem.email,actividades,calcularEdad(elem.fechaNacimiento),elem.cuota);
+
+  sociosTabla.appendChild(agregarSocioTabla(elem.id,elem.nombre,elem.apellidos,
+                                            elem.email,elem.actividades,calcularEdad(elem.fechaNacimiento),elem.cuota))
 })
   
 }
@@ -402,8 +400,7 @@ function formatoFecha(){
  */
 function cambiarTildesVocales(nombre){
   let nombreSocio="";
-  nombre=
-      nombre.toLocaleLowerCase().split().forEach(carac =>{
+      nombre.toLocaleLowerCase().split("").forEach(carac =>{
         switch(carac){
           case "á":carac="a";break;
           case "é":carac="e";break;
@@ -415,4 +412,126 @@ function cambiarTildesVocales(nombre){
         nombreSocio+=carac;
       })
     return nombreSocio;
+}
+
+/**
+ * Función Para crear Nodos
+ * 
+ * @param {string} tipo
+ * @param {string} texto
+ * @param {string} id 
+ * @param {string} styles
+ * 
+ * @returns Node   
+ * 
+ */
+function createNode(tipo,texto,id,clase){
+    let elemento=null;
+
+     if((tipo)|| (typeof tipo ==="string"))
+         elemento=document.createElement(tipo);
+    else
+        return null; 
+
+    
+    if((texto!="")&& (typeof texto === "string")){
+        let elementoText=document.createTextNode(texto);
+        elemento.appendChild(elementoText);
+    }
+
+    if(id!= "")
+        elemento.id=id;
+
+    if((clase) && (typeof clase==="string") && (clase !=""))
+        elemento.className=clase;
+
+    return elemento;
+}
+
+/**
+ * Función que limpia la Tabla socioTabla 
+ */
+
+function limpiarTablaSocios(sociosEncontrados){
+   if(sociosEncontrados.length==0)sociosTabla.innerHTML="No se han Encontrado Socios";
+    else {
+      sociosTabla.innerHTML="";}
+}
+
+/**
+ * Función que filtra los socios 
+ */
+function filtrarSocios(){
+
+  //Tomamos los valores del Buscador y de las Actividades 
+  caracteres=inpBuscar.value.trim();
+  let valor = selecActividad.value;
+  var myRegActividades = new RegExp(`${valor}`);
+  let sociosEncontrados=[];
+
+
+  if(caracteres){
+    caracteres=cambiarTildesVocales(caracteres).toLowerCase();
+
+    // creamos la expreción regular
+    var myReg = new RegExp(`^${caracteres}`,"i") 
+     
+   
+  sociosEncontrados= socios.filter(elem => {
+    let nombreSocio=cambiarTildesVocales(elem.nombre.toLowerCase());
+    let apellidoSocio=cambiarTildesVocales(elem.apellidos.toLowerCase());
+
+      if(myReg.test(nombreSocio)|| myReg.test(apellidoSocio))
+        return elem;
+    })
+  }
+
+  
+
+  if(valor!="todas" && sociosEncontrados.length!=0){
+    sociosActividaes(sociosEncontrados,myRegActividades);
+
+  }else if(valor!="todas" && sociosEncontrados.length==0) {
+    for(let i=0;i<socios.length;i++){
+      let actividades =actividadesSocioString(socios[i].actividades);
+
+      if(myRegActividades.test(actividades))sociosEncontrados.push(socios[i]);
+
+    }
+  }  
+  visualizarSocios(sociosEncontrados);
+
+}
+
+/**
+ * Buscar Socios por sus Actividades 
+ * 
+ * @param {Array} sociosEncontrados
+ * @param {String} myReg
+ * 
+ */
+function sociosActividaes(sociosEncontrados,myReg){
+   for(let i=0;i<sociosEncontrados.length;i++){
+      let actividades =actividadesSocioString(sociosEncontrados[i].actividades);
+
+      if(!(myReg.test(actividades)))sociosEncontrados.splice(i,1);
+  
+    }
+
+}
+
+/**
+ * Visualiza los socios Filtrados en la Tabla
+ * 
+ * @param {*} sociosEncontrados
+ */
+
+function visualizarSocios(sociosEncontrados){
+   limpiarTablaSocios(sociosEncontrados);
+       for(let elem of sociosEncontrados){
+     
+         sociosTabla.appendChild(agregarSocioTabla(elem.id,elem.nombre,elem.apellidos,
+                                            elem.email,elem.actividades,calcularEdad(elem.fechaNacimiento),elem.cuota))
+         }
+
 }
