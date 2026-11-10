@@ -27,7 +27,7 @@
     <section class="card section-listado" id="seccion-listado">
       <div class="section-header">
         <h2>Listado de Socios</h2>
-        <button id="btn-fullscreen" class="btn btn-outline" title="Pantalla completa">
+        <button id="btnFullscreen" class="btn btn-outline" title="Pantalla completa">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
           </svg>
@@ -57,7 +57,7 @@
 
         <div class="form-group">
           <label for="select-orden">Ordenar por</label>
-          <select id="select-orden">
+          <select id="selecOrdenar">
             <option value="nombre">Nombre</option>
             <option value="apellidos">Apellidos</option>
             <option value="jovenes">Más jóvenes primero</option>
@@ -89,66 +89,8 @@
       </div>
     </section>
 
-    <div class="grid-two-columns">
+    <div class="ventanasOpciones" id="ventanasOpciones">
       
-      <!-- 3.3 Ficha de socio -->
-      <section class="card section-ficha">
-        <h2>Ficha de Socio</h2>
-        <form id="form-ficha" class="inline-form" onsubmit="return false;">
-          <div class="form-group">
-            <label for="ficha-dni">Buscar socio por DNI</label>
-            <div class="input-with-btn">
-              <input type="text" id="ficha-dni" placeholder="12345678Z">
-              <button type="submit" id="btn-buscar-ficha" class="btn btn-primary">Buscar</button>
-            </div>
-          </div>
-        </form>
-
-        <div id="ficha-error" class="alert alert-error hidden">
-          El DNI introducido no corresponde a ningún socio registrado.
-        </div>
-
-        <div id="ficha-detalle" class="ficha-detalle hidden">
-          <div class="ficha-header">
-            <h3 id="ficha-nombre-id">Lucía Martín R. (SOC-0001)</h3>
-            <span class="badge" id="ficha-dni-val">12345678Z</span>
-          </div>
-
-          <div class="ficha-grid">
-            <div class="ficha-item">
-              <span class="ficha-label">Email completo</span>
-              <span id="ficha-email" class="ficha-val">-</span>
-              <small id="ficha-dominio" class="ficha-subval">(dominio: correo.es)</small>
-            </div>
-            <div class="ficha-item">
-              <span class="ficha-label">Teléfono</span>
-              <span id="ficha-telefono" class="ficha-val">-</span>
-            </div>
-            <div class="ficha-item">
-              <span class="ficha-label">Fecha Nac. y Edad</span>
-              <span id="ficha-nacimiento" class="ficha-val">-</span>
-            </div>
-            <div class="ficha-item">
-              <span class="ficha-label">Fecha Alta / Antigüedad</span>
-              <span id="ficha-alta" class="ficha-val">-</span>
-            </div>
-            <div class="ficha-item">
-              <span class="ficha-label">Próximo Cumpleaños</span>
-              <span id="ficha-cumple" class="ficha-val">-</span>
-            </div>
-            <div class="ficha-item">
-              <span class="ficha-label">Cuota mensual</span>
-              <span id="ficha-cuota" class="ficha-val">-</span>
-            </div>
-          </div>
-
-          <div class="ficha-actividades-box">
-            <span class="ficha-label">Actividades matriculadas</span>
-            <div id="ficha-actividades" class="tags-container"></div>
-          </div>
-        </div>
-      </section>
-
       <!-- 3.4 Alta de socio -->
       <section class="card section-alta">
         <h2>Alta de Nuevo Socio</h2>

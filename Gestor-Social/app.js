@@ -186,11 +186,26 @@ const socios = [
 
 const FECHA_ACTUAL=new Date();// Constatnte que contiene la fecha Actual
 
+const ruta =location.href;
 const fechaActual=document.getElementById("fechaActual");// Fecha Actula
 const tiempoActual=document.getElementById("tiempoActual"); // constante donde mostraremos el Tiempo
 const sociosTabla=document.getElementById("sociosTabla"); // constante para obtener la tabla donde estaran los socios
 const inpBuscar = document.getElementById("inpBuscar"); // Input del Buscador de Socios 
 const selecActividad = document.getElementById("selecActividad"); // Select de las Opciones actividades
+const selecOrdenar = document.getElementById("selecOrdenar"); // Seleciona como se ordenan los socios
+const btnPantallaCompleta = document.getElementById("btnFullscreen"); // botón de Pantalla Completa
+const ventanasOpciones =document.getElementById("ventanasOpciones"); //sección donde podremos abrir ventanas 
+
+//Poner en Pantalla completa los socios 
+btnPantallaCompleta.addEventListener("click", () => {
+  if (!document.fullscreenElement) {
+    sociosTabla.requestFullscreen(); // Entrar en pantalla completa
+  } else {
+    document.exitFullscreen(); // Salir de pantalla completa
+  }
+});
+
+
 
 //Agregamos la fecha Actual a la Cabecera
 fechaActual.innerHTML=formatoFecha();
@@ -207,23 +222,35 @@ setInterval(()=>{
 
 //Buscador de Socios , agregamos un evento para saber que el usuario ha escrito más de 2 caracteres
 inpBuscar.addEventListener("input",() =>{
-
   let caracteres=inpBuscar.value.trim(); // recogemos caracter por caracter 
   if(caracteres.length>=2){
     filtrarSocios(caracteres);
   }
   else cargarSocios();
-
-  
- 
-
 })
 
 //Buscar Socios por ACTIVIDADES
-selecActividad.addEventListener("input",()=>{
- 
-  filtrarSocios();
+selecActividad.addEventListener("input",()=>{filtrarSocios();})
+//Evento Ordenar 
+selecOrdenar.addEventListener("input", function (){filtrarSocios();})
 
+//Creamos un Nodo para abrir una nueva Ventana
+let btnAbrirBuscarFicha = createNode("button","Buscar Ficha","btnAbrirBuscarFicha","btnDefecto");
+ventanasOpciones.appendChild(btnAbrirBuscarFicha);
+btnAbrirBuscarFicha.addEventListener("click",()=>{
+
+  const anchoVentana=500;
+  const altoVentana=400;
+  const posicionY=(screen.availWidth-anchoVentana)/2;
+  const posicionX=(screen.availHeight-altoVentana)/2;
+  let propiedades = `width=${anchoVentana},height=${altoVentana}`;
+  let ventanaFichaBuscar=window.open("./fichaBuscar.html","ficha Buscar",propiedades);
+
+
+  ventanaFichaBuscar.moveTo(posicionY,posicionX*0.8);
+
+  
+  
 })
 
 
@@ -459,13 +486,15 @@ function limpiarTablaSocios(sociosEncontrados){
 }
 
 /**
- * Función que filtra los socios 
+ * Función que filtra los socios por busqueda,
+ * actividades y ordenar por nombre
  */
 function filtrarSocios(){
 
   //Tomamos los valores del Buscador y de las Actividades 
   caracteres=inpBuscar.value.trim();
   let valor = selecActividad.value;
+  let selectOrdenarSocios=selecOrdenar.value;
   var myRegActividades = new RegExp(`${valor}`);
   let sociosEncontrados=[];
 
@@ -487,7 +516,7 @@ function filtrarSocios(){
   }
 
   
-
+  //Bloque para Ordenar por Nombre ,Apellidos y Edad
   if(valor!="todas" && sociosEncontrados.length!=0){
     sociosActividaes(sociosEncontrados,myRegActividades);
 
@@ -499,7 +528,20 @@ function filtrarSocios(){
 
     }
   }  
-  visualizarSocios(sociosEncontrados);
+  
+
+
+  if(sociosEncontrados.length!=0){
+    ordenarSocios(selectOrdenarSocios,sociosEncontrados);
+      visualizarSocios(sociosEncontrados);
+  }
+  else {
+    let socioOrdenado=socios;
+    ordenarSocios(selectOrdenarSocios,socioOrdenado);
+    visualizarSocios(socioOrdenado);
+  } 
+
+
 
 }
 
@@ -518,6 +560,23 @@ function sociosActividaes(sociosEncontrados,myReg){
   
     }
 
+}
+
+/**
+ *  Función a la que se le pasan socios y una cadena
+ * indicando como quiere que los ordene
+ * 
+ * @param {String} selectOrdenarSocios 
+ * @param {Array} sociosEncontrados 
+ */
+function ordenarSocios(selectOrdenarSocios,sociosEncontrados){
+    switch(selectOrdenarSocios){
+    case "nombre":sociosEncontrados.sort((a,b)=>a.nombre.localeCompare(b.nombre));break;
+    case "apellidos":sociosEncontrados.sort((a,b)=>a.apellidos.localeCompare(b.apellidos));break;
+    case "jovenes":sociosEncontrados.sort((a,b)=> calcularEdad(a.fechaNacimiento)-calcularEdad(b.fechaNacimiento));break;
+    case "antiguo":sociosEncontrados.sort((a,b)=> calcularEdad(b.fechaNacimiento)-calcularEdad(a.fechaNacimiento));break;
+
+  }
 }
 
 /**

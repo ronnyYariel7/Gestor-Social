@@ -110,7 +110,7 @@ body {
   gap: 1.5rem;
 }
 
-.grid-two-columns {
+.ventanasOpciones {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
@@ -312,12 +312,12 @@ input.input-error {
   transition: var(--transition);
 }
 
-.btn-primary {
+.btnDefecto {
   background-color: var(--primary);
   color: #fff;
 }
 
-.btn-primary:hover {
+.btnDefecto:hover {
   background-color: var(--primary-hover);
 }
 
@@ -539,4 +539,20 @@ input.input-error {
   .ficha-grid {
     grid-template-columns: 1fr;
   }
+}
+
+
+/* Cuando el contenedor div esté en pantalla completa */
+#sociosTabla:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: #ffffff !important;
+  padding: 20px;
+  overflow: auto !important; /* Muestra el scroll si es muy grande */
+  box-sizing: border-box;
+}
+
+/* Y obligamos a la tabla que está dentro a estirarse al 100% del ancho */
+#sociosTabla:fullscreen table {
+  width: 100% !important;
 }

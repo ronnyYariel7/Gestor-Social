@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Buscar</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script type="module" src="fichaBuscar.js"></script>
+</head>
+<body>
+
+     <!-- 3.3 Ficha de socio -->
+      <section class="card section-ficha" id="sectionBuscarFicha">
+        <h2>Ficha de Socio</h2>
+        <form id="form-ficha" class="inline-form" onsubmit="return false;">
+          <div class="form-group">
+            <label for="ficha-dni">Buscar socio por DNI</label>
+            <div class="input-with-btn">
+              <input type="text" id="ficha-dni" placeholder="12345678Z">
+              <button type="submit" id="btn-buscar-ficha" class="btn btn-primary">Buscar</button>
+            </div>
+          </div>
+        </form>
+
+        <div id="ficha-error" class="alert alert-error hidden">
+          El DNI introducido no corresponde a ningún socio registrado.
+        </div>
+
+        <div id="ficha-detalle" class="ficha-detalle hidden">
+          <div class="ficha-header">
+            <h3 id="ficha-nombre-id">Lucía Martín R. (SOC-0001)</h3>
+            <span class="badge" id="ficha-dni-val">12345678Z</span>
+          </div>
+
+          <div class="ficha-grid">
+            <div class="ficha-item">
+              <span class="ficha-label">Email completo</span>
+              <span id="ficha-email" class="ficha-val">-</span>
+              <small id="ficha-dominio" class="ficha-subval">(dominio: correo.es)</small>
+            </div>
+            <div class="ficha-item">
+              <span class="ficha-label">Teléfono</span>
+              <span id="ficha-telefono" class="ficha-val">-</span>
+            </div>
+            <div class="ficha-item">
+              <span class="ficha-label">Fecha Nac. y Edad</span>
+              <span id="ficha-nacimiento" class="ficha-val">-</span>
+            </div>
+            <div class="ficha-item">
+              <span class="ficha-label">Fecha Alta / Antigüedad</span>
+              <span id="ficha-alta" class="ficha-val">-</span>
+            </div>
+            <div class="ficha-item">
+              <span class="ficha-label">Próximo Cumpleaños</span>
+              <span id="ficha-cumple" class="ficha-val">-</span>
+            </div>
+            <div class="ficha-item">
+              <span class="ficha-label">Cuota mensual</span>
+              <span id="ficha-cuota" class="ficha-val">-</span>
+            </div>
+          </div>
+
+          <div class="ficha-actividades-box">
+            <span class="ficha-label">Actividades matriculadas</span>
+            <div id="ficha-actividades" class="tags-container"></div>
+          </div>
+        </div>
+      </section>
+
+    
+</body>
+</html>
