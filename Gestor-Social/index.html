@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestor de Socios - Club Deportivo</title>
   <link rel="stylesheet" href="css/styles.css">
-  <script type="module" src="app.js"></script>
+  <script  src="app.js" defer></script>
 </head>
 <body>
 
@@ -91,123 +91,10 @@
 
     <div class="ventanasOpciones" id="ventanasOpciones">
       
-      <!-- 3.4 Alta de socio -->
-      <section class="card section-alta">
-        <h2>Alta de Nuevo Socio</h2>
-        
-        <div id="alta-mensaje-exito" class="alert alert-success hidden"></div>
-
-        <form id="form-alta" novalidate>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="alta-nombre">Nombre y Apellidos</label>
-              <input type="text" id="alta-nombre" placeholder="Ej. María José Ruiz">
-              <span class="error-text" id="err-nombre"></span>
-            </div>
-            <div class="form-group">
-              <label for="alta-dni">DNI</label>
-              <input type="text" id="alta-dni" placeholder="12345678Z">
-              <span class="error-text" id="err-dni"></span>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="alta-email">Email</label>
-              <input type="email" id="alta-email" placeholder="ana@correo.es">
-              <span class="error-text" id="err-email"></span>
-            </div>
-            <div class="form-group">
-              <label for="alta-telefono">Teléfono</label>
-              <input type="tel" id="alta-telefono" placeholder="612 345 678">
-              <span class="error-text" id="err-telefono"></span>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="alta-nacimiento">Fecha de nacimiento</label>
-              <input type="text" id="alta-nacimiento" placeholder="dd/mm/aaaa">
-              <span class="error-text" id="err-nacimiento"></span>
-            </div>
-            <div class="form-group">
-              <label for="alta-cuota">Cuota (€/mes)</label>
-              <input type="number" id="alta-cuota" min="0" step="0.01" value="35">
-              <span class="error-text" id="err-cuota"></span>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Actividades (Marca al menos una)</label>
-            <div class="checkbox-group" id="group-actividades">
-              <label class="checkbox-label"><input type="checkbox" name="actividades" value="natación"> Natación</label>
-              <label class="checkbox-label"><input type="checkbox" name="actividades" value="yoga"> Yoga</label>
-              <label class="checkbox-label"><input type="checkbox" name="actividades" value="pádel"> Pádel</label>
-              <label class="checkbox-label"><input type="checkbox" name="actividades" value="musculación"> Musculación</label>
-              <label class="checkbox-label"><input type="checkbox" name="actividades" value="spinning"> Spinning</label>
-              <label class="checkbox-label"><input type="checkbox" name="actividades" value="pilates"> Pilates</label>
-            </div>
-            <span class="error-text" id="err-actividades"></span>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block">Dar de Alta Socio</button>
-        </form>
-      </section>
-
-    </div>
-
-    <!-- 3.5 Estadísticas -->
-    <section class="card section-stats">
-      <h2>Estadísticas del Club</h2>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <span class="stat-title">Total Socios</span>
-          <span class="stat-value" id="stat-total-socios">0</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-title">Ingresos Mensuales</span>
-          <span class="stat-value" id="stat-ingresos">0.00 €</span>
-          <span class="stat-subtext">Media: <strong id="stat-cuota-media">0.00 €</strong></span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-title">Edad Media</span>
-          <span class="stat-value" id="stat-edad-media">0</span>
-          <span class="stat-subtext">Min: <span id="stat-edad-min">0</span> | Máx: <span id="stat-edad-max">0</span></span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-title">Actividad Top</span>
-          <span class="stat-value" id="stat-actividad-top">-</span>
-          <span class="stat-subtext" id="stat-actividad-count">0 socios</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-title">¿Hay Menores?</span>
-          <span class="stat-value" id="stat-menores">No</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-title">¿Todos Activos?</span>
-          <span class="stat-value" id="stat-todos-actividad">Sí</span>
-          <span class="stat-subtext">Mínimo 1 actividad</span>
-        </div>
-      </div>
-
-      <div class="stats-footer-grid">
-        <div class="stat-box">
-          <h3>Top 3 Socios Más Veteranos</h3>
-          <ol id="stat-veteranos-list" class="veteranos-list">
-            <!-- Carga dinámica -->
-          </ol>
-        </div>
-        <div class="stat-box">
-          <h3>Dominios de Correo Registrados</h3>
-          <div id="stat-dominios-list" class="tags-container">
-            <!-- Carga dinámica -->
-          </div>
-        </div>
-      </div>
+     </div>
     </section>
 
   </main>
 
-  <script src="app.js"></script>
 </body>
 </html>

@@ -1,7 +1,8 @@
 /**
  * Un array que contine un Objeto de tipo Socio 
  */
-const socios = [
+
+var socios = [
   {
     id: "SOC-0001",
     nombre: "Lucía",
@@ -184,6 +185,8 @@ const socios = [
   }
 ];
 
+
+var usersWindows=null;
 const FECHA_ACTUAL=new Date();// Constatnte que contiene la fecha Actual
 
 const ruta =location.href;
@@ -239,15 +242,15 @@ let btnAbrirBuscarFicha = createNode("button","Buscar Ficha","btnAbrirBuscarFich
 ventanasOpciones.appendChild(btnAbrirBuscarFicha);
 btnAbrirBuscarFicha.addEventListener("click",()=>{
 
+
   const anchoVentana=500;
   const altoVentana=400;
   const posicionY=(screen.availWidth-anchoVentana)/2;
   const posicionX=(screen.availHeight-altoVentana)/2;
-  let propiedades = `width=${anchoVentana},height=${altoVentana}`;
-  let ventanaFichaBuscar=window.open("./fichaBuscar.html","ficha Buscar",propiedades);
+  let propiedades = `width=${anchoVentana},height=${altoVentana},left=${posicionY},top=${posicionX*0.7}`;
+  usersWindows=window.open("./fichaBuscar.html","ficha Buscar",propiedades);
 
 
-  ventanaFichaBuscar.moveTo(posicionY,posicionX*0.8);
 
   
   
@@ -308,9 +311,7 @@ function agregarSocioTabla(id, nombre,apellidos, email, actividades, edad, cuota
 function cargarSocios() {
 
   // Para evitar duplicaciones de Socios en sociosTabla 
-  while(sociosTabla.firstChild){
-    sociosTabla.removeChild(sociosTabla.firstChild)
-  }
+    removeNodes(sociosTabla);
 
   socios.forEach((elem)=>{
 
@@ -592,5 +593,19 @@ function visualizarSocios(sociosEncontrados){
          sociosTabla.appendChild(agregarSocioTabla(elem.id,elem.nombre,elem.apellidos,
                                             elem.email,elem.actividades,calcularEdad(elem.fechaNacimiento),elem.cuota))
          }
+
+}
+
+/**
+ * Función que te permite borrar todos los Nodos
+ * que Contiene un Elemento
+ * @param {*} elemento 
+ */
+
+function removeNodes(elemento){
+
+    while(elemento.firstChild){
+        elemento.removeChild(elemento.firstChild)
+    }
 
 }

@@ -298,7 +298,7 @@ input.input-error {
 }
 
 /* Botones */
-.btn {
+.btnDefecto {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -424,7 +424,7 @@ input.input-error {
   margin-top: 1rem;
 }
 
-.alert-error {
+.error {
   background-color: var(--danger-light);
   color: var(--danger);
   border: 1px solid #fecaca;
