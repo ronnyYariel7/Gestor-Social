@@ -242,12 +242,10 @@ let btnAbrirBuscarFicha = createNode("button","Buscar Ficha","btnAbrirBuscarFich
 ventanasOpciones.appendChild(btnAbrirBuscarFicha);
 btnAbrirBuscarFicha.addEventListener("click",()=>{
 
+  let anchoVentana=500;
+  let altoVentana=400;
 
-  const anchoVentana=500;
-  const altoVentana=400;
-  const posicionY=(screen.availWidth-anchoVentana)/2;
-  const posicionX=(screen.availHeight-altoVentana)/2;
-  let propiedades = `width=${anchoVentana},height=${altoVentana},left=${posicionY},top=${posicionX*0.7}`;
+  let propiedades = propiedadesVentana(anchoVentana,altoVentana,(screen.availWidth-anchoVentana)/2,(screen.availHeight-altoVentana)/2);
   usersWindows=window.open("./fichaBuscar.html","ficha Buscar",propiedades);
 
 
@@ -256,13 +254,39 @@ btnAbrirBuscarFicha.addEventListener("click",()=>{
   
 })
 
+//Creamos el Botón del Formulario 
+let btnAltaSocio =createNode("button","Alta de Socio","btnAltaSocio","btnDefecto");
+ventanasOpciones.appendChild(btnAltaSocio);
+btnAltaSocio.addEventListener("click",()=>{
+
+  let anchoVentana=1000;
+  let altoVentana=600;
+
+  let propiedades = propiedadesVentana(anchoVentana,altoVentana,(screen.availWidth-anchoVentana)/2,(screen.availHeight-altoVentana)/2);
+  usersWindows=window.open("./AltaSocio.html","Alta Socio",propiedades)
+})
+
 
 /**
  * -------FUNCIONES-----------
  */
 
-array=[222]
-array.lenght;
+
+/**
+ * función para agregarle las propiedades a una Ventana
+ * 
+ * @param {number} anchoVentana 
+ * @param {number} altoVentana 
+ * @param {number} posicionY 
+ * @param {number} posicionX 
+ * @returns 
+ */
+
+function propiedadesVentana(anchoVentana,altoVentana,posicionY,posicionX){
+
+  return `width=${anchoVentana},height=${altoVentana},left=${posicionY},top=${posicionX*0.7}`;
+  
+}
 /**
  * 
  * Funcion para poder agregar el formato de fila con los datos

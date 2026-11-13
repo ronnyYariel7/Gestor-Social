@@ -1,3 +1,4 @@
+const fichaDetalle = document.getElementById("ficha-detalle");
 const btnBuscarFicha =document.getElementById("btn-buscar-ficha");
 const intDni=document.getElementById("ficha-dni");
 const  fichaError = document.getElementById("ficha-error");
@@ -16,10 +17,12 @@ const fichaActividades= document.getElementById("ficha-actividades");
 let socio=null;
 
 btnBuscarFicha.addEventListener("click",()=>{
-    debugger;
+
+   
+   
         window.opener.removeNodes(fichaError);
-         let dni=intDni.value;
-        socio= sociosTabla.find(elem => elem.dni==dni)
+         let dni=intDni.value.toUpperCase();
+        socio= sociosTabla.find((elem) => elem.dni===dni)
     try {
          
      if(!socio)
@@ -29,19 +32,20 @@ btnBuscarFicha.addEventListener("click",()=>{
 
 
         fichaNombreId.textContent=socio.nombre+" "+socio.apellidos+" "+socio.id;
-       // fichaNombreId.textContent = `${socio.nombre} ${socio.apellidos} (${socio.id})`;
         fichaDniVal.textContent   = socio.dni;
         fichaEmail.textContent    = socio.email+"| Dominio: "+dominioCorreo(socio.email);
         fichaTelefono.textContent = telefonoFormato(socio.telefono);
         fichaNacimiento.textContent = formatoFechaNacimiento(socio.fechaNacimiento);
         fichaAlta.textContent     = antiguedadDelSocio(socio.fechaAlta);
         fichaCumple.textContent =  proximoCumpleaños(socio.fechaNacimiento);
+        fichaActividades.textContent = window.opener.actividadesSocioString(socio.actividades);
         fichaCuota.textContent    = `${socio.cuota} €`;
     
+        esconderFicha(false);
 
         
     } catch (error) {
-        
+        esconderFicha(true);
         fichaError.appendChild(window.opener.createNode("p",error.message,"","error"));
     }
    
@@ -131,5 +135,20 @@ function proximoCumpleaños(nacimiemto){
     cadena+=Math.ceil((fecha-fechaActual)/ milisegundosPorDias)+" dias";
 
     return cadena;
+
+}
+
+/** 
+ * True para esconder y False para mostrar
+ * @param {boolean} esconder 
+*/
+
+function esconderFicha(esconder){
+
+    if(esconder===true){
+        fichaDetalle.className=fichaDetalle.className+"hidden";
+    }else if(esconder===false){
+        fichaDetalle.className=fichaDetalle.className.replace("hidden",""); // mostramos la ficha
+    }
 
 }
